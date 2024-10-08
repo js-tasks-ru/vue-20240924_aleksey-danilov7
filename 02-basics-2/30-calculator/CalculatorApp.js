@@ -1,4 +1,4 @@
-import {defineComponent, ref, watch} from 'vue'
+import {computed, defineComponent, ref} from 'vue'
 
 export default defineComponent({
   name: 'CalculatorApp',
@@ -7,24 +7,21 @@ export default defineComponent({
     const a = ref()
     const b = ref()
     const operator = ref()
-    const result = ref()
 
-    watch([a,b,operator], () => {
+    const result = computed( () => {
       if (operator.value === 'sum') {
-        result.value = a.value + b.value
+        return a.value + b.value
       }
       if (operator.value === 'subtract') {
-        result.value = a.value - b.value
+        return a.value - b.value
       }
       if (operator.value === 'multiply') {
-        result.value = a.value * b.value
+        return a.value * b.value
       }
       if (operator.value === 'divide') {
-        result.value = a.value / b.value
+        return a.value / b.value
       }
-      if (!result.value) {
-        result.value = ''
-      }
+      return ''
     })
 
     return {
@@ -38,7 +35,7 @@ export default defineComponent({
 
   template: `
     <div class="calculator">
-      <input type="number" v-model="a" aria-label="First operand" />
+      <input type="number" v-model="a" aria-label="First operand"/>
 
       <div class="calculator__operators">
         <label><input type="radio" name="operator" v-model="operator" value="sum"/>➕</label>
@@ -47,11 +44,11 @@ export default defineComponent({
         <label><input type="radio" name="operator" v-model="operator" value="divide"/>➗</label>
       </div>
 
-      <input type="number" v-model="b" aria-label="Second operand" />
+      <input type="number" v-model="b" aria-label="Second operand"/>
 
       <div>=</div>
 
-      <output class="pin">{{result}}</output>
+      <output class="pin">{{ result }}</output>
     </div>
   `,
 })
